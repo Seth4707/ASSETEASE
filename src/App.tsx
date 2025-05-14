@@ -84,9 +84,11 @@ function AppContent() {
   return (
     <div className="min-h-screen bg-gray-100 py-4 px-2 sm:py-8 sm:px-4">
       <div className="max-w-6xl mx-auto">
-        <div className="flex flex-col sm:flex-row items-center justify-center mb-4 sm:mb-8">
-          <img src="/Assetease.png" alt="AssetEase Logo" className="h-12 sm:h-16 mb-2 sm:mb-0 sm:mr-4" />
-          <h1 className="text-2xl sm:text-3xl font-bold text-center text-blue-600">
+        <div className="relative flex flex-col sm:flex-row sm:items-center mb-4 sm:mb-8">
+          <div className="sm:absolute sm:left-0">
+            <img src="/Assetease.png" alt="AssetEase Logo" className="h-12 sm:h-16 mb-2 sm:mb-0" />
+          </div>
+          <h1 className="text-2xl sm:text-3xl font-bold text-center w-full text-blue-600">
             Asset Depreciation Calculator
           </h1>
         </div>
@@ -192,6 +194,9 @@ function App() {
 }
 
 export default App
+
+
+
 
 
 
