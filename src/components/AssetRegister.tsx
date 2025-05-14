@@ -135,6 +135,18 @@ export function AssetRegister() {
     doc.save('asset_register.pdf');
   };
 
+  // Add sorting functionality
+  const handleSort = (column: string) => {
+    if (sortBy === column) {
+      // If already sorting by this column, toggle order
+      setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+    } else {
+      // New column, set it and default to ascending
+      setSortBy(column);
+      setSortOrder('asc');
+    }
+  };
+
   return (
     <div className="bg-white p-4 sm:p-6 rounded-lg shadow-md">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 sm:mb-6 space-y-3 sm:space-y-0">
@@ -176,12 +188,48 @@ export function AssetRegister() {
         <div className="overflow-x-auto -mx-4 sm:mx-0">
           <div className="inline-block min-w-full align-middle">
             <table className="min-w-full divide-y divide-gray-200">
-              <thead>
-                <tr className="bg-gray-100 text-gray-600 uppercase text-sm leading-normal">
-                  <th className="py-3 px-6 text-left">Asset Name</th>
-                  <th className="py-3 px-6 text-left">Type</th>
-                  <th className="py-3 px-6 text-right">Purchase Cost</th>
-                  <th className="py-3 px-6 text-center">Purchase Date</th>
+              <thead className="bg-gray-50">
+                <tr>
+                  <th 
+                    scope="col" 
+                    className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
+                    onClick={() => handleSort('name')}
+                  >
+                    Asset Name
+                    {sortBy === 'name' && (
+                      <span className="ml-1">{sortOrder === 'asc' ? '↑' : '↓'}</span>
+                    )}
+                  </th>
+                  <th 
+                    scope="col" 
+                    className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
+                    onClick={() => handleSort('type')}
+                  >
+                    Type
+                    {sortBy === 'type' && (
+                      <span className="ml-1">{sortOrder === 'asc' ? '↑' : '↓'}</span>
+                    )}
+                  </th>
+                  <th 
+                    scope="col" 
+                    className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
+                    onClick={() => handleSort('cost')}
+                  >
+                    Purchase Cost
+                    {sortBy === 'cost' && (
+                      <span className="ml-1">{sortOrder === 'asc' ? '↑' : '↓'}</span>
+                    )}
+                  </th>
+                  <th 
+                    scope="col" 
+                    className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
+                    onClick={() => handleSort('date')}
+                  >
+                    Purchase Date
+                    {sortBy === 'date' && (
+                      <span className="ml-1">{sortOrder === 'asc' ? '↑' : '↓'}</span>
+                    )}
+                  </th>
                   <th className="py-3 px-6 text-center">Method</th>
                   <th className="py-3 px-6 text-right">Current Depreciation</th>
                   <th className="py-3 px-6 text-right">Current NBV</th>
@@ -234,6 +282,7 @@ export function AssetRegister() {
     </div>
   );
 }
+
 
 
 

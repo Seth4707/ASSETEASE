@@ -209,8 +209,13 @@ export function AssetForm({ onCalculate }: AssetFormProps) {
               onChange={handleChange}
               placeholder="Office Computer"
               required
-              className="w-full border rounded p-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className={`w-full border rounded p-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                errors.assetName ? 'border-red-500' : ''
+              }`}
             />
+            {errors.assetName && (
+              <p className="text-xs text-red-500 mt-1">{errors.assetName}</p>
+            )}
           </div>
           
           <div>
@@ -222,15 +227,20 @@ export function AssetForm({ onCalculate }: AssetFormProps) {
               value={formData.assetType}
               onChange={handleChange}
               required
-              className="w-full border rounded p-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className={`w-full border rounded p-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                errors.assetType ? 'border-red-500' : ''
+              }`}
             >
               {assetTypes.map(type => (
                 <option key={type.value} value={type.value}>{type.label}</option>
               ))}
             </select>
+            {errors.assetType && (
+              <p className="text-xs text-red-500 mt-1">{errors.assetType}</p>
+            )}
             {formData.assetType && (
               <p className="text-xs text-gray-500 mt-1">
-                Suggested residual value: {getSelectedAssetType()?.residualRange}
+                Suggested residual value: {residualRange}
               </p>
             )}
           </div>
@@ -249,8 +259,13 @@ export function AssetForm({ onCalculate }: AssetFormProps) {
               placeholder="1000000"
               required
               min="1"
-              className="w-full border rounded p-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className={`w-full border rounded p-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                errors.purchaseCost ? 'border-red-500' : ''
+              }`}
             />
+            {errors.purchaseCost && (
+              <p className="text-xs text-red-500 mt-1">{errors.purchaseCost}</p>
+            )}
           </div>
           
           <div>
@@ -263,8 +278,13 @@ export function AssetForm({ onCalculate }: AssetFormProps) {
               value={formData.purchaseDate}
               onChange={handleChange}
               required
-              className="w-full border rounded p-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className={`w-full border rounded p-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                errors.purchaseDate ? 'border-red-500' : ''
+              }`}
             />
+            {errors.purchaseDate && (
+              <p className="text-xs text-red-500 mt-1">{errors.purchaseDate}</p>
+            )}
           </div>
         </div>
         
@@ -281,8 +301,13 @@ export function AssetForm({ onCalculate }: AssetFormProps) {
               onFocus={() => setShowResidualTooltip(true)}
               onBlur={() => setShowResidualTooltip(false)}
               placeholder="0"
-              className="w-full border rounded p-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className={`w-full border rounded p-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                errors.residualValue ? 'border-red-500' : ''
+              }`}
             />
+            {errors.residualValue && (
+              <p className="text-xs text-red-500 mt-1">{errors.residualValue}</p>
+            )}
             <p className="text-xs text-gray-500 mt-1">
               Enter the estimated value of the asset at the end of its useful life. Leave blank if unsure.
             </p>
@@ -311,8 +336,13 @@ export function AssetForm({ onCalculate }: AssetFormProps) {
               min="1"
               value={formData.usefulLife}
               onChange={handleChange}
-              className="w-full border rounded p-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className={`w-full border rounded p-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                errors.usefulLife ? 'border-red-500' : ''
+              }`}
             />
+            {errors.usefulLife && (
+              <p className="text-xs text-red-500 mt-1">{errors.usefulLife}</p>
+            )}
             <p className="text-xs text-gray-500 mt-1">
               Tip: Computers (3–5 yrs), Vehicles (5–7 yrs), Furniture (7–10 yrs), 
               Machinery (8-12 yrs), Buildings (20-30 yrs), Tools (3-6 yrs), 
@@ -372,12 +402,6 @@ export function AssetForm({ onCalculate }: AssetFormProps) {
     </div>
   );
 }
-
-
-
-
-
-
 
 
 
