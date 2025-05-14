@@ -27,25 +27,35 @@ export function Chart({ schedule, type }: ChartProps) {
   const formatTooltipValue = (value: number) => `₦${value.toLocaleString()}`;
   
   return (
-    <div className="bg-white p-4 rounded-lg shadow">
-      <h3 className="text-lg font-semibold mb-4">{title}</h3>
-      <div className="h-64 w-full">
+    <div className="bg-white p-3 sm:p-4 rounded-lg shadow">
+      <h3 className="text-base sm:text-lg font-semibold mb-2 sm:mb-4">{title}</h3>
+      <div className="h-48 sm:h-64 w-full">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
             data={chartData}
-            margin={{ top: 5, right: 5, left: 5, bottom: 20 }}
+            margin={{ top: 5, right: 5, left: 0, bottom: 20 }}
           >
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis 
               dataKey="year" 
-              tick={{ fontSize: 12 }}
+              tick={{ fontSize: 10 }}
               angle={-45}
               textAnchor="end"
               height={50}
+              interval={0}
+              // On small screens, show fewer labels
+              tickFormatter={(value, index) => {
+                // On small screens, only show every other year label
+                if (window.innerWidth < 640 && index % 2 !== 0) {
+                  return '';
+                }
+                return value;
+              }}
             />
             <YAxis 
               tickFormatter={(value) => `₦${value.toLocaleString()}`}
-              width={80}
+              width={60}
+              tick={{ fontSize: 10 }}
             />
             <Tooltip formatter={formatTooltipValue} />
             <Bar dataKey="value" fill={barColor} />
@@ -55,5 +65,6 @@ export function Chart({ schedule, type }: ChartProps) {
     </div>
   );
 }
+
 
 

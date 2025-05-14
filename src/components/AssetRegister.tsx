@@ -136,16 +136,16 @@ export function AssetRegister() {
   };
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-md">
-      <div className="flex justify-between items-center mb-6">
+    <div className="bg-white p-4 sm:p-6 rounded-lg shadow-md">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 sm:mb-6 space-y-3 sm:space-y-0">
         <h2 className="text-xl font-bold">Asset Register</h2>
-        <div className="flex gap-4">
-          <div>
-            <label className="mr-2 text-sm">Filter by Type:</label>
+        <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 w-full sm:w-auto">
+          <div className="w-full sm:w-auto">
+            <label className="block sm:inline mr-2 text-sm">Filter by Type:</label>
             <select 
               value={filterType} 
               onChange={(e) => setFilterType(e.target.value)}
-              className="border rounded p-1 text-sm"
+              className="w-full sm:w-auto border rounded p-1 text-sm"
             >
               <option value="">All Types</option>
               {assetTypes.map(type => (
@@ -153,29 +153,10 @@ export function AssetRegister() {
               ))}
             </select>
           </div>
-          <div>
-            <label className="mr-2 text-sm">Sort by:</label>
-            <select 
-              value={sortBy} 
-              onChange={(e) => setSortBy(e.target.value)}
-              className="border rounded p-1 text-sm"
-            >
-              <option value="name">Name</option>
-              <option value="type">Type</option>
-              <option value="cost">Cost</option>
-              <option value="date">Purchase Date</option>
-            </select>
-            <button 
-              onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
-              className="ml-1 px-2 py-1 bg-gray-200 rounded text-sm"
-            >
-              {sortOrder === 'asc' ? '↑' : '↓'}
-            </button>
-          </div>
-          <div>
+          <div className="flex gap-2">
             <button 
               onClick={handleExportCSV}
-              className="px-3 py-1 bg-blue-500 text-white rounded text-sm mr-2"
+              className="px-3 py-1 bg-blue-500 text-white rounded text-sm"
             >
               Export CSV
             </button>
@@ -192,53 +173,55 @@ export function AssetRegister() {
       {assets.length === 0 ? (
         <p className="text-center text-gray-500 my-8">No assets added yet. Use the calculator to add assets.</p>
       ) : (
-        <div className="overflow-x-auto">
-          <table className="min-w-full bg-white">
-            <thead>
-              <tr className="bg-gray-100 text-gray-600 uppercase text-sm leading-normal">
-                <th className="py-3 px-6 text-left">Asset Name</th>
-                <th className="py-3 px-6 text-left">Type</th>
-                <th className="py-3 px-6 text-right">Purchase Cost</th>
-                <th className="py-3 px-6 text-center">Purchase Date</th>
-                <th className="py-3 px-6 text-center">Method</th>
-                <th className="py-3 px-6 text-right">Current Depreciation</th>
-                <th className="py-3 px-6 text-right">Current NBV</th>
-                <th className="py-3 px-6 text-center">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="text-gray-600 text-sm">
-              {sortedAssets.map(asset => {
-                const { depreciation, nbv } = getCurrentYearData(asset);
-                return (
-                  <tr key={asset.id} className="border-b border-gray-200 hover:bg-gray-50">
-                    <td className="py-3 px-6 text-left">{asset.assetName}</td>
-                    <td className="py-3 px-6 text-left">{asset.assetType}</td>
-                    <td className="py-3 px-6 text-right">₦{asset.purchaseCost.toLocaleString()}</td>
-                    <td className="py-3 px-6 text-center">{asset.purchaseDate}</td>
-                    <td className="py-3 px-6 text-center">{asset.method}</td>
-                    <td className="py-3 px-6 text-right">₦{depreciation.toLocaleString()}</td>
-                    <td className="py-3 px-6 text-right">₦{nbv.toLocaleString()}</td>
-                    <td className="py-3 px-6 text-center">
-                      <div className="flex justify-center items-center space-x-2">
-                        <button 
-                          onClick={() => handleViewDetails(asset)}
-                          className="text-blue-500 hover:text-blue-700"
-                        >
-                          View
-                        </button>
-                        <button 
-                          onClick={() => deleteAsset(asset.id)}
-                          className="text-red-500 hover:text-red-700"
-                        >
-                          Delete
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+        <div className="overflow-x-auto -mx-4 sm:mx-0">
+          <div className="inline-block min-w-full align-middle">
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead>
+                <tr className="bg-gray-100 text-gray-600 uppercase text-sm leading-normal">
+                  <th className="py-3 px-6 text-left">Asset Name</th>
+                  <th className="py-3 px-6 text-left">Type</th>
+                  <th className="py-3 px-6 text-right">Purchase Cost</th>
+                  <th className="py-3 px-6 text-center">Purchase Date</th>
+                  <th className="py-3 px-6 text-center">Method</th>
+                  <th className="py-3 px-6 text-right">Current Depreciation</th>
+                  <th className="py-3 px-6 text-right">Current NBV</th>
+                  <th className="py-3 px-6 text-center">Actions</th>
+                </tr>
+              </thead>
+              <tbody className="text-gray-600 text-sm">
+                {sortedAssets.map(asset => {
+                  const { depreciation, nbv } = getCurrentYearData(asset);
+                  return (
+                    <tr key={asset.id} className="border-b border-gray-200 hover:bg-gray-50">
+                      <td className="py-3 px-6 text-left">{asset.assetName}</td>
+                      <td className="py-3 px-6 text-left">{asset.assetType}</td>
+                      <td className="py-3 px-6 text-right">₦{asset.purchaseCost.toLocaleString()}</td>
+                      <td className="py-3 px-6 text-center">{asset.purchaseDate}</td>
+                      <td className="py-3 px-6 text-center">{asset.method}</td>
+                      <td className="py-3 px-6 text-right">₦{depreciation.toLocaleString()}</td>
+                      <td className="py-3 px-6 text-right">₦{nbv.toLocaleString()}</td>
+                      <td className="py-3 px-6 text-center">
+                        <div className="flex justify-center items-center space-x-2">
+                          <button 
+                            onClick={() => handleViewDetails(asset)}
+                            className="text-blue-500 hover:text-blue-700"
+                          >
+                            View
+                          </button>
+                          <button 
+                            onClick={() => deleteAsset(asset.id)}
+                            className="text-red-500 hover:text-red-700"
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
       
@@ -251,6 +234,7 @@ export function AssetRegister() {
     </div>
   );
 }
+
 
 
 

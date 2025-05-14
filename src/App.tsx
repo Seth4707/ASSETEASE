@@ -82,28 +82,32 @@ function AppContent() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 py-8 px-4">
+    <div className="min-h-screen bg-gray-100 py-4 px-2 sm:py-8 sm:px-4">
       <div className="max-w-6xl mx-auto">
-        <h1 className="text-3xl font-bold text-center text-blue-600 mb-8">
-          Asset Depreciation Calculator
-        </h1>
+        <div className="flex flex-col sm:flex-row items-center justify-center mb-4 sm:mb-8">
+          <img src="/Assetease.png" alt="AssetEase Logo" className="h-12 sm:h-16 mb-2 sm:mb-0 sm:mr-4" />
+          <h1 className="text-2xl sm:text-3xl font-bold text-center text-blue-600">
+            Asset Depreciation Calculator
+          </h1>
+        </div>
         
-        <div className="bg-white shadow-lg rounded-lg p-6 mb-8 border-2 border-blue-500">
-          <p className="text-lg font-medium text-gray-800">
+        <div className="bg-white shadow-lg rounded-lg p-4 sm:p-6 mb-4 sm:mb-8 border-2 border-blue-500">
+          <p className="text-base sm:text-lg font-medium text-gray-800 text-center">
             AssetEase. Know your asset. Track its value. Stay compliant.
           </p>
         </div>
         
-        <div className="mb-6">
+        {/* Tab navigation - make it more touch-friendly */}
+        <div className="mb-4 sm:mb-6">
           <div className="flex border-b border-gray-200">
             <button
-              className={`py-2 px-4 ${activeTab === 'calculator' ? 'border-b-2 border-blue-500 text-blue-500' : 'text-gray-500'}`}
+              className={`py-2 px-3 sm:px-4 text-sm sm:text-base ${activeTab === 'calculator' ? 'border-b-2 border-blue-500 text-blue-500' : 'text-gray-500'}`}
               onClick={() => setActiveTab('calculator')}
             >
               Calculator
             </button>
             <button
-              className={`py-2 px-4 ${activeTab === 'register' ? 'border-b-2 border-blue-500 text-blue-500' : 'text-gray-500'}`}
+              className={`py-2 px-3 sm:px-4 text-sm sm:text-base ${activeTab === 'register' ? 'border-b-2 border-blue-500 text-blue-500' : 'text-gray-500'}`}
               onClick={() => setActiveTab('register')}
             >
               Asset Register
@@ -188,6 +192,7 @@ function App() {
 }
 
 export default App
+
 
 
 

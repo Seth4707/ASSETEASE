@@ -196,149 +196,174 @@ export function AssetForm({ onCalculate }: AssetFormProps) {
   return (
     <div className="bg-white p-6 rounded-lg shadow-md">
       <h2 className="text-xl font-bold mb-4">Asset Information</h2>
-      <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="flex flex-col">
-          <label className="mb-1 font-medium">Asset Name</label>
-          <input
-            type="text"
-            name="assetName"
-            value={formData.assetName}
-            onChange={handleChange}
-            className="border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          {errors.assetName && <p className="text-red-500 text-sm mt-1">{errors.assetName}</p>}
-        </div>
-        
-        <div className="flex flex-col">
-          <label className="mb-1 font-medium">Asset Type</label>
-          <select
-            name="assetType"
-            value={formData.assetType}
-            onChange={handleChange}
-            className="border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            {assetTypes.map(type => (
-              <option key={type.value} value={type.value}>{type.label}</option>
-            ))}
-          </select>
-        </div>
-        
-        <div className="flex flex-col">
-          <label className="mb-1 font-medium">Purchase Cost (₦)</label>
-          <input
-            type="number"
-            name="purchaseCost"
-            value={formData.purchaseCost}
-            onChange={handleChange}
-            className="border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          {errors.purchaseCost && <p className="text-red-500 text-sm mt-1">{errors.purchaseCost}</p>}
-        </div>
-        
-        <div className="flex flex-col relative">
-          <label className="mb-1 font-medium">
-            Residual Value (₦) 
-            <span className="text-sm text-gray-500 ml-1">(Recommended)</span>
-            {residualRange && (
-              <span className="text-sm text-blue-600 ml-2">
-                Suggested: {residualRange}
-              </span>
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Asset Name
+            </label>
+            <input
+              type="text"
+              name="assetName"
+              value={formData.assetName}
+              onChange={handleChange}
+              placeholder="Office Computer"
+              required
+              className="w-full border rounded p-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Asset Type
+            </label>
+            <select
+              name="assetType"
+              value={formData.assetType}
+              onChange={handleChange}
+              required
+              className="w-full border rounded p-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              {assetTypes.map(type => (
+                <option key={type.value} value={type.value}>{type.label}</option>
+              ))}
+            </select>
+            {formData.assetType && (
+              <p className="text-xs text-gray-500 mt-1">
+                Suggested residual value: {getSelectedAssetType()?.residualRange}
+              </p>
             )}
-          </label>
-          <input
-            type="number"
-            name="residualValue"
-            value={formData.residualValue}
-            onChange={handleChange}
-            onFocus={() => setShowResidualTooltip(true)}
-            onBlur={() => setShowResidualTooltip(false)}
-            placeholder="0"
-            className="border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          <p className="text-xs text-gray-500 mt-1">
-            Enter the estimated value of the asset at the end of its useful life. Leave blank if unsure.
-          </p>
-          {showResidualTooltip && (
-            <div className="absolute right-0 top-0 mt-10 bg-white p-3 rounded shadow-lg border z-10 w-64">
-              <h4 className="font-medium text-sm mb-1">Suggested Residual Values:</h4>
-              <ul className="text-xs">
-                <li>Computers: 0-10% of cost</li>
-                <li>Vehicles: 10-20% of cost</li>
-                <li>Machinery: 5-15% of cost</li>
-                <li>Furniture: 5-10% of cost</li>
-                <li>Buildings: 20-30% of cost</li>
-              </ul>
+          </div>
+        </div>
+        
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Purchase Cost (₦)
+            </label>
+            <input
+              type="number"
+              name="purchaseCost"
+              value={formData.purchaseCost}
+              onChange={handleChange}
+              placeholder="1000000"
+              required
+              min="1"
+              className="w-full border rounded p-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Purchase Date
+            </label>
+            <input
+              type="date"
+              name="purchaseDate"
+              value={formData.purchaseDate}
+              onChange={handleChange}
+              required
+              className="w-full border rounded p-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+        </div>
+        
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Residual Value (₦)
+            </label>
+            <input
+              type="number"
+              name="residualValue"
+              value={formData.residualValue}
+              onChange={handleChange}
+              onFocus={() => setShowResidualTooltip(true)}
+              onBlur={() => setShowResidualTooltip(false)}
+              placeholder="0"
+              className="w-full border rounded p-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <p className="text-xs text-gray-500 mt-1">
+              Enter the estimated value of the asset at the end of its useful life. Leave blank if unsure.
+            </p>
+            {showResidualTooltip && (
+              <div className="absolute right-0 top-0 mt-10 bg-white p-3 rounded shadow-lg border z-10 w-64">
+                <h4 className="font-medium text-sm mb-1">Suggested Residual Values:</h4>
+                <ul className="text-xs">
+                  <li>Computers: 0-10% of cost</li>
+                  <li>Vehicles: 10-20% of cost</li>
+                  <li>Machinery: 5-15% of cost</li>
+                  <li>Furniture: 5-10% of cost</li>
+                  <li>Buildings: 20-30% of cost</li>
+                </ul>
+              </div>
+            )}
+          </div>
+          
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Useful Life (years)
+            </label>
+            <input
+              type="number"
+              id="usefulLife"
+              name="usefulLife"
+              min="1"
+              value={formData.usefulLife}
+              onChange={handleChange}
+              className="w-full border rounded p-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <p className="text-xs text-gray-500 mt-1">
+              Tip: Computers (3–5 yrs), Vehicles (5–7 yrs), Furniture (7–10 yrs), 
+              Machinery (8-12 yrs), Buildings (20-30 yrs), Tools (3-6 yrs), 
+              Leasehold (lease term)
+            </p>
+          </div>
+        </div>
+        
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Depreciation Method
+            </label>
+            <select
+              name="method"
+              value={formData.method}
+              onChange={handleChange}
+              className="w-full border rounded p-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="Straight-Line">Straight-Line</option>
+              <option value="Declining Balance">Declining Balance</option>
+            </select>
+          </div>
+          
+          {formData.method === 'Declining Balance' && (
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Depreciation Rate (%)
+              </label>
+              <input
+                type="number"
+                name="depreciationRate"
+                value={formData.depreciationRate}
+                onChange={handleChange}
+                min="1"
+                max="100"
+                className="w-full border rounded p-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+              <p className="text-xs text-gray-500 mt-1">
+                Typical rates: Office Furniture (10-15%), Vehicles (20-25%), 
+                Computers (30-40%), Machinery (15-25%), Tools (20-33%), 
+                Buildings (2-5%), Leasehold (over lease term)
+              </p>
             </div>
           )}
         </div>
         
-        <div className="flex flex-col">
-          <label className="mb-1 font-medium" htmlFor="usefulLife">Useful Life (years)</label>
-          <input
-            type="number"
-            id="usefulLife"
-            name="usefulLife"
-            min="1"
-            value={formData.usefulLife}
-            onChange={handleChange}
-            className="border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          {errors.usefulLife && <p className="text-red-500 text-sm mt-1">{errors.usefulLife}</p>}
-          <p className="text-xs text-gray-500 mt-1">
-            Tip: Computers (3–5 yrs), Vehicles (5–7 yrs), Furniture (7–10 yrs), 
-            Machinery (8-12 yrs), Buildings (20-30 yrs), Tools (3-6 yrs), 
-            Leasehold (lease term)
-          </p>
-        </div>
-        
-        <div className="flex flex-col">
-          <label className="mb-1 font-medium">Purchase Date (optional)</label>
-          <input
-            type="date"
-            name="purchaseDate"
-            value={formData.purchaseDate}
-            onChange={handleChange}
-            className="border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-        </div>
-        
-        <div className="flex flex-col">
-          <label className="mb-1 font-medium">Depreciation Method</label>
-          <select
-            name="method"
-            value={formData.method}
-            onChange={handleChange}
-            className="border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            <option value="Straight-Line">Straight-Line</option>
-            <option value="Declining Balance">Declining Balance</option>
-          </select>
-        </div>
-        
-        {formData.method === 'Declining Balance' && (
-          <div className="flex flex-col">
-            <label className="mb-1 font-medium">Depreciation Rate (%)</label>
-            <input
-              type="number"
-              name="depreciationRate"
-              value={formData.depreciationRate}
-              onChange={handleChange}
-              min="1"
-              max="100"
-              className="border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-            <p className="text-xs text-gray-500 mt-1">
-              Typical rates: Office Furniture (10-15%), Vehicles (20-25%), 
-              Computers (30-40%), Machinery (15-25%), Tools (20-33%), 
-              Buildings (2-5%), Leasehold (over lease term)
-            </p>
-          </div>
-        )}
-        
-        <div className="md:col-span-2 mt-4">
-          <button 
+        <div className="mt-6">
+          <button
             type="submit"
-            className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition-colors"
+            className="w-full sm:w-auto px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
           >
             Calculate Depreciation
           </button>
@@ -347,6 +372,7 @@ export function AssetForm({ onCalculate }: AssetFormProps) {
     </div>
   );
 }
+
 
 
 
